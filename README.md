@@ -18,6 +18,10 @@
     follow `%`.
   > `@plain flour{100%g}, @eggs{2}(large), @milk{300%ml}, @sunflower or
   > vegetable oil{1%tbsp} and @salt{pinch} into a #bowl{}`
+  * Metadata is self-defined but follow [common
+    conventions](https://cooklang.org/docs/conventions/)
+  * [Developer](https://cooklang.org/docs/for-developers/) libraries and other
+    resources
 
 ## Command-Line Tool
 
