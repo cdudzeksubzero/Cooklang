@@ -6,7 +6,7 @@
     "configurations": [
 
         {
-            "type": "msedge",
+            "type": "chrome",
             "request": "launch",
             "preLaunchTask": "Start Cook Server",
             "name": "Browse Recipes",

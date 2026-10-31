@@ -2,3 +2,4 @@
 
 # Cook CLI
 *.jinja
+.shopping-list
