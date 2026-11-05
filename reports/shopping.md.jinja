@@ -1,0 +1,13 @@
+# Shopping list: {{ metadata.title | default("recipe") }} ({{ scale }}x)
+
+{% for aisle, items in aisled(excluding_pantry(ingredients)) | items %}
+## {{ aisle | titleize }}
+{% for ingredient in items -%}
+- [ ] {{ ingredient.name }}{% if ingredient.quantity %}: {{ ingredient.quantity }}{% endif %}
+{% endfor %}
+{% endfor %}
+
+## Already at home
+{% for ingredient in from_pantry(ingredients) -%}
+- {{ ingredient.name }}
+{% endfor %}

@@ -1,0 +1,21 @@
+# {{ metadata.title | default("Untitled recipe") }}
+{% if metadata.servings %}**Serves:** {{ metadata.servings }}{% endif %}
+{% if metadata.tags %}**Tags:** {{ metadata.tags }}{% endif %}
+
+## Ingredients
+{% for ingredient in get_ingredient_list(ingredients) -%}
+- **{{ ingredient.name | titleize }}**{% if ingredient.quantities %}: {{ ingredient.quantities }}{% endif %}
+{% endfor %}
+{% if cookware %}
+## Cookware
+{% for item in cookware -%}
+- {{ item.name | titleize }}
+{% endfor %}
+{% endif %}
+## Method
+{% for section in sections -%}
+{% if section.name %}### {{ section.name }}{% endif %}
+{% for step in section -%}
+{{ step }}
+{% endfor %}
+{% endfor %}

@@ -33,3 +33,12 @@ also prepared each of these dishes and made further adjustments as needed.
 [Cooklang]: https://cooklang.org
 [Getting Started]: https://cooklang.org/docs/getting-started/
 [Cooklang Specification]: https://cooklang.org/docs/spec/
+
+## Cook CLI Reports
+
+<!-- https://cooklang.org/guides/reports/ -->
+<!-- https://cooklang.org/blog/45-recipe-reports-and-dashboards/ -->
+<!-- https://github.com/cooklang/cooklang-reports/tree/main/test/data/reports -->
+
+* Render recipe to MD: `cook report -t reports/recipe-card.md.jinja "Breakfast/Easy Pancakes.cook" > pancakes.md`
+* Create shopping list: `cook report -t reports/shopping.md.jinja "Neapolitan Pizza.cook:2" -a config/aisle.conf -p config/pantry.conf`
