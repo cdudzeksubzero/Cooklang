@@ -8,6 +8,8 @@ rsync \
 --delete \
 --progress \
 --exclude '/paprika-import/' \
+--exclude '/.shopping-*' \
+--exclude '/config/aisle.conf' \
 --exclude '.DS_Store' \
 ~/repos/Cooklang/recipes/ \
 kitchen@pikitchen.local:/home/kitchen/Cooklang/recipes/

@@ -48,25 +48,44 @@ def convert_cooklang_list(json_string):
         for item in cat_data.get("items", []):
             name = item.get("name")
             quantities = item.get("quantities", [])
-            
-            if quantities:
-                # Get the first quantity object from the list
-                qty_info = quantities[0]
-                unit = qty_info.get("unit", "")
-                
+            qlist = []
+            for qty in quantities:
                 # Safely drill down into value -> value -> value
-                raw_val = qty_info.get("value", {}).get("value", {}).get("value", "")
+                raw_val = qty.get("value", {}).get("value", {}).get("value", "")
                 val = clean_number(raw_val)
+                if isinstance(val, float) and not val.is_integer() and val > 0:
+                    val = round(val, 2)  # Round to 2 decimal places if it's a float
+                unit = qty.get("unit", "")
                 
                 # Don't print the unit if it's literally the string "None" or empty
                 if unit and unit != "None":
-                    print(f"[ ] {name} ({val} {unit})")
+                    qlist.append(f"{val} {unit}")
                 elif val != "":
-                    print(f"[ ] {name} ({val})")
-                else:
-                    print(f"[ ] {name}")
+                    qlist.append(f"{val}")
+            if qlist:
+                print(f"[ ] {name} ({' + '.join(qlist)})")
             else:
                 print(f"[ ] {name}")
+            # if quantities:
+            #     # Get the first quantity object from the list
+            #     qty_info = quantities[0]
+            #     unit = qty_info.get("unit", "")
+                
+            #     # Safely drill down into value -> value -> value
+            #     raw_val = qty_info.get("value", {}).get("value", {}).get("value", "")
+            #     val = clean_number(raw_val)
+            #     if isinstance(val, float) and not val.is_integer() and val > 0:
+            #         val = round(val, 2)  # Round to 2 decimal places if it's a float
+
+            #     # Don't print the unit if it's literally the string "None" or empty
+            #     if unit and unit != "None":
+            #         print(f"[ ] {name} ({val} {unit})")
+            #     elif val != "":
+            #         print(f"[ ] {name} ({val})")
+            #     else:
+            #         print(f"[ ] {name}")
+            # else:
+            #     print(f"[ ] {name}")
         print()
    
 def get_recipe_list():
@@ -87,7 +106,13 @@ def get_shopping_list():
     """
     Get a shopping list from the cook server based on the provided recipes.
     """
-    request_body = '''[ { "recipe": "Convection Steam Oven/Breakfast/Dutch Baby Pancake", "scale": 1 } ]'''
+    # request_body = '''[ { "recipe": "Convection Steam Oven/Breakfast/Dutch Baby Pancake", "scale": 1 } ]'''
+
+    names = get_shopping_list_recipes()
+    request_body = json.dumps([{"recipe": name, "scale": 1} for name in names])
+    if not names or len(names) == 0:
+        print("No recipes found in the shopping list.")
+        return
 
     try:
         response = requests.post(f"{SERVER_URL}/api/shopping_list", data=request_body, headers={"Content-Type": "application/json"})
@@ -100,11 +125,28 @@ def get_shopping_list():
     except requests.exceptions.ConnectionError:
         print("Could not connect to cook server. Is it running?")
 
-def get_shopping_list_recipes():
+def get_shopping_list_recipes() -> list[str]:
     # GET: /api/shopping_list/items
     # An entry with a recipes array is a menu added via add_menu
-    pass
+    shopping_recipes: list[str] = []
+    try:
+        response = requests.get(f"{SERVER_URL}/api/shopping_list/items", )
+        if response.status_code == 200:
+            data = response.json()
+            # print("Shopping List:", data)
+            for item in data:
+                if "path" in item:
+                    shopping_recipes.append(item.get("path",""))
+                for ref in item.get("included_references", []):
+                    shopping_recipes.append(ref)
+        else:
+            print(f"Error: {response.status_code}")
+    except requests.exceptions.ConnectionError:
+        print("Could not connect to cook server. Is it running?")
+
+    return shopping_recipes
 
 if __name__ == "__main__":
     # get_recipe_list()
     get_shopping_list()
+    # get_shopping_list_recipes()
