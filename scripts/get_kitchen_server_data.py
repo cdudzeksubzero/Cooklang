@@ -66,26 +66,6 @@ def convert_cooklang_list(json_string):
                 print(f"[ ] {name} ({' + '.join(qlist)})")
             else:
                 print(f"[ ] {name}")
-            # if quantities:
-            #     # Get the first quantity object from the list
-            #     qty_info = quantities[0]
-            #     unit = qty_info.get("unit", "")
-                
-            #     # Safely drill down into value -> value -> value
-            #     raw_val = qty_info.get("value", {}).get("value", {}).get("value", "")
-            #     val = clean_number(raw_val)
-            #     if isinstance(val, float) and not val.is_integer() and val > 0:
-            #         val = round(val, 2)  # Round to 2 decimal places if it's a float
-
-            #     # Don't print the unit if it's literally the string "None" or empty
-            #     if unit and unit != "None":
-            #         print(f"[ ] {name} ({val} {unit})")
-            #     elif val != "":
-            #         print(f"[ ] {name} ({val})")
-            #     else:
-            #         print(f"[ ] {name}")
-            # else:
-            #     print(f"[ ] {name}")
         print()
    
 def get_recipe_list():
