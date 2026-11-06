@@ -1,6 +1,10 @@
 #!/bin/sh
 
-scp kitchen@pikitchen.local:~/Cooklang/recipes/config/aisle.conf ~/repos/Cooklang/recipes/config/aisle.conf
+rsync \
+-avzh \
+--progress \
+kitchen@pikitchen.local:/home/kitchen/Cooklang/recipes/config/ \
+~/repos/Cooklang/recipes/config/
 
 rsync \
 -avzh \
@@ -9,7 +13,7 @@ rsync \
 --progress \
 --exclude '/paprika-import/' \
 --exclude '/.shopping-*' \
---exclude '/config/aisle.conf' \
+--exclude '/config/*' \
 --exclude '.DS_Store' \
 ~/repos/Cooklang/recipes/ \
 kitchen@pikitchen.local:/home/kitchen/Cooklang/recipes/
