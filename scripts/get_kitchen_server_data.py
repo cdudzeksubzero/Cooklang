@@ -105,7 +105,7 @@ def get_shopping_list():
     except requests.exceptions.ConnectionError:
         print("Could not connect to cook server. Is it running?")
 
-def get_shopping_list_recipes() -> list[str]:
+def get_shopping_list_recipes(print_recipes: bool = True) -> list[str]:
     # GET: /api/shopping_list/items
     # An entry with a recipes array is a menu added via add_menu
     shopping_recipes: list[str] = []
@@ -124,9 +124,14 @@ def get_shopping_list_recipes() -> list[str]:
     except requests.exceptions.ConnectionError:
         print("Could not connect to cook server. Is it running?")
 
+    if print_recipes and shopping_recipes:
+        print("=== Recipes ===")
+        for recipe in shopping_recipes:
+            print(f"- {recipe}")
+        print()
     return shopping_recipes
 
 if __name__ == "__main__":
     # get_recipe_list()
     get_shopping_list()
-    # get_shopping_list_recipes()
+    # get_shopping_list_recipes(True)
