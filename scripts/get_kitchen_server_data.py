@@ -127,7 +127,8 @@ def get_shopping_list_recipes(print_recipes: bool = True) -> list[str]:
     if print_recipes and shopping_recipes:
         print("=== Recipes ===")
         for recipe in shopping_recipes:
-            print(f"- {recipe}")
+            title = recipe.replace("_", " ").replace("/", " / ")
+            print(f"- {title}")
         print()
     return shopping_recipes
 
